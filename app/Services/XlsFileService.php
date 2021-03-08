@@ -38,7 +38,7 @@ class XlsFileService
         $currentColumn = $array[$columnName];
         $indexArray = $this->getKeyArrayOfGivenValues($currentColumn);
 
-        if(!empty($availableIndexesPreviousColumn)) {
+        if(!empty($previousOptionArray)) {
             $availableKeys = $this->getValuesFromTwoDimensionalArray($previousOptionArray);
             $indexArray=$this->handleCommaInOptions($indexArray);
             $indexArray = $this->unsetNonAvailableValues($availableKeys, $indexArray);
