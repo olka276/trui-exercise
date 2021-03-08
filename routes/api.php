@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/get-xls-data', 'App\Http\Controllers\XlsFileController@getFileData');
+Route::get('/get-filters', 'App\Http\Controllers\XlsFileController@getFilterNames');
