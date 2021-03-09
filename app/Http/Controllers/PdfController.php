@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Facade\FlareClient\Http\Exceptions\NotFound;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PdfController
