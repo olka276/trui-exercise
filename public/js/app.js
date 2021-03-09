@@ -1881,10 +1881,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "form-component",
   data: function data() {
     return {
+      error: null,
       currentDpoFilter: null,
       loader: false,
       dpoFilters: null,
@@ -1910,7 +1914,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   _this.dpoFilters = response.data[0];
                   _this.currentDpoFilter = 0;
                 })["catch"](function (error) {
-                  return console.error(error);
+                  _this.error = error.response.data[0];
                 });
 
               case 2:
@@ -1935,16 +1939,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    getOptions: function getOptions(colName, previousArray) {
-      try {
-        return axios.post('/api/get-xls-data', {
-          column_name: colName,
-          previous_option_array: previousArray
-        });
-      } catch (err) {
-        console.error(err);
-      }
-    },
     loadNext: function loadNext(elem) {
       var _this2 = this;
 
@@ -1965,22 +1959,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 5:
                 if (!(_this2.currentDpoFilter === _this2.dpoFilters.length)) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
+                _this2.loader = true;
                 return _context2.abrupt("return");
 
-              case 7:
-                _context2.next = 9;
+              case 8:
+                _context2.next = 10;
                 return _this2.getOptions(_this2.dpoFilters[_this2.currentDpoFilter], choice);
 
-              case 9:
+              case 10:
                 options = _context2.sent;
                 options = options.data[0];
                 _this2.currentDpoFilter++;
 
-              case 12:
+              case 13:
                 if (!Object.keys(options).some(function (x) {
                   return x !== null && x !== '';
                 })) {
@@ -1988,19 +1983,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-              case 13:
+              case 14:
                 _this2.formArray.push({
                   columnName: _this2.dpoFilters[_this2.currentDpoFilter - 1],
                   options: options
                 });
 
-              case 14:
+              case 15:
               case "end":
                 return _context2.stop();
             }
           }
         }, _callee2);
       }))();
+    },
+    getOptions: function getOptions(colName, previousArray) {
+      try {
+        return axios.post('/api/get-xls-data', {
+          column_name: colName,
+          previous_option_array: previousArray
+        });
+      } catch (err) {
+        this.error = 'An error occurred.';
+      }
+    },
+    downloadPdf: function downloadPdf() {
+      window.open('/api/download');
     }
   }
 });
@@ -38322,56 +38330,71 @@ var render = function() {
       _c("div", { staticClass: "col-md-8" }, [
         _c(
           "div",
-          { staticClass: "card" },
-          _vm._l(_vm.formArray, function(elem) {
-            return _c("label", [
-              _vm._v(" " + _vm._s(elem.columnName) + "\n                    "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: elem.choice,
-                      expression: "elem.choice"
-                    }
-                  ],
-                  on: {
-                    change: [
-                      function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          elem,
-                          "choice",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      },
-                      function($event) {
-                        return _vm.loadNext(elem)
+          { staticClass: "card doc-form" },
+          [
+            _vm._v(
+              "\n                " + _vm._s(_vm.error) + "\n                "
+            ),
+            _vm._l(_vm.formArray, function(elem) {
+              return _c("label", [
+                _vm._v(
+                  " " + _vm._s(elem.columnName) + "\n                    "
+                ),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: elem.choice,
+                        expression: "elem.choice"
                       }
-                    ]
-                  }
-                },
-                _vm._l(elem.options, function(availables, index) {
-                  return _c("option", { domProps: { value: availables } }, [
-                    _vm._v(" " + _vm._s(index))
+                    ],
+                    on: {
+                      change: [
+                        function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            elem,
+                            "choice",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                        function($event) {
+                          return _vm.loadNext(elem)
+                        }
+                      ]
+                    }
+                  },
+                  _vm._l(elem.options, function(availables, index) {
+                    return _c("option", { domProps: { value: availables } }, [
+                      _vm._v(" " + _vm._s(index))
+                    ])
+                  }),
+                  0
+                )
+              ])
+            }),
+            _vm._v(" "),
+            _vm.loader
+              ? _c("div", [
+                  _c("button", { on: { click: _vm.downloadPdf } }, [
+                    _vm._v("Download PDF file")
                   ])
-                }),
-                0
-              )
-            ])
-          }),
-          0
+                ])
+              : _vm._e()
+          ],
+          2
         )
       ])
     ])

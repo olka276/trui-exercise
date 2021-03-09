@@ -125,7 +125,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Excel File Variables
+    | Excel File
     |--------------------------------------------------------------------------
     |
     | These variables are used to getting correct data from xlsx document
@@ -134,6 +134,17 @@ return [
 
     'xls_file_path' => env('XLS_DOCUMENT_PATH', 'Document/arkusz.xlsx'),
     'xls_file_filter_prefix' => env('XLS_DOCUMENT_FILTER_PREFIX', 'DPO_Filter:'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | PDF File
+    |--------------------------------------------------------------------------
+    |
+    | These variables are used to getting PDF to download
+    |
+    */
+
+    'pdf_file_path' => env('PDF_DOCUMENT_PATH', 'Document/doc.pdf'),
 
 
     /*

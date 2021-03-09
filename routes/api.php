@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/get-xls-data', 'App\Http\Controllers\XlsFileController@getFileData');
 Route::get('/get-filters', 'App\Http\Controllers\XlsFileController@getFilterNames');
+Route::get('/download', 'App\Http\Controllers\PdfController@downloadFile');

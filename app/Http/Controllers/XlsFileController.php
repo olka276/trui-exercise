@@ -47,7 +47,7 @@ class XlsFileController extends Controller
         if(!file_exists($path)){
             return response()->json([
                 "File doesn't exists."
-            ], Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_NOT_ACCEPTABLE);
         }
 
         $xlsxData = $this
