@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
+/**
+ * Class PdfController
+ * @package App\Http\Controllers
+ */
 class PdfController extends Controller
 {
+    /**
+     * Triggers downloading file in browser
+     *
+     * @return BinaryFileResponse
+     */
     public function downloadFile(): BinaryFileResponse
     {
         $path = config('app.pdf_file_path');
