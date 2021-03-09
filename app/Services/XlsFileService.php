@@ -47,7 +47,14 @@ class XlsFileService
         return $indexArray;
     }
 
-    public function getFilterNames($array) {
+    /**
+     * Get array of array keys.
+     *
+     * @param array $array Filter array
+     * @return array
+     */
+    public function getFilterNames($array): array
+    {
         return array_keys($array);
     }
 
@@ -81,6 +88,7 @@ class XlsFileService
                     $filterName = $array[0][$colkey];
                     if (substr($filterName, 0, strlen($prefix) ) === $prefix) {
                         $filterName = substr($filterName, strlen($prefix), strlen($filterName));
+                        //use first element of each array as key
                         if($rowkey != 0) {
                             $result[$filterName][]=$col;
                         }
@@ -90,6 +98,7 @@ class XlsFileService
         }
 
         foreach ($result as $key=>$column) {
+            //avoid displaying filter, which all available options has empty
             if (empty(array_filter($column, function ($a) {
                 return !is_null($a);
             }))) {
@@ -145,7 +154,7 @@ class XlsFileService
      * @param array[][] $array Two-dimensional array
      * @return array
      */
-    private function getValuesFromTwoDimensionalArray($array): array
+    private function getValuesFromTwoDimensionalArray(array $array): array
     {
         $values = [];
         foreach ($array as $valuesArray) {
@@ -163,7 +172,7 @@ class XlsFileService
      * @param array[][] $array Two-dimensional array to unset values
      * @return array
      */
-    private function unsetNonAvailableValues($availableKeys, $array): array
+    private function unsetNonAvailableValues(array $availableKeys, array $array): array
     {
         foreach ($array as $indexKey=>$indexName) {
             foreach ($indexName as $key=>$option) {
@@ -178,5 +187,4 @@ class XlsFileService
 
         return $array;
     }
-
 }

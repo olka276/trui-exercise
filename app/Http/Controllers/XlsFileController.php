@@ -22,10 +22,7 @@ class XlsFileController extends Controller
      * XlsFileController constructor.
      * @param XlsFileService $xlsFileService
      */
-    public function __construct
-    (
-        XlsFileService $xlsFileService
-    )
+    public function __construct(XlsFileService $xlsFileService)
     {
         $this->xlsFileService = $xlsFileService;
     }
@@ -65,7 +62,7 @@ class XlsFileController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function getFilterNames()
+    public function getFilterNames(): JsonResponse
     {
         $path = app_path(config('app.xls_file_path'));
         $prefix = config('app.xls_file_filter_prefix');

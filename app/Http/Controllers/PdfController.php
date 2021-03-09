@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Facade\FlareClient\Http\Exceptions\NotFound;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class PdfController
@@ -23,7 +26,6 @@ class PdfController extends Controller
             'Content-Type: application/octet-stream',
             'Content-Disposition: attachment; filename="' . 'doc.pdf' . '"',
         );
-
         return response()->download(app_path($path), 'doc.pdf', $headers);
     }
 }
