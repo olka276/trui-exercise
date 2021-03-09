@@ -23,7 +23,6 @@ class PdfController extends Controller
             'Content-Type: application/octet-stream',
             'Content-Disposition: attachment; filename="' . 'doc.pdf' . '"',
         );
-
         return response()->download(app_path($path), 'doc.pdf', $headers);
     }
 }
