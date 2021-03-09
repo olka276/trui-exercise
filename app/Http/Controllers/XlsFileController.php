@@ -84,6 +84,8 @@ class XlsFileController extends Controller
             ->xlsFileService
             ->getFilterNames($xlsxData);
 
-        dd($filters);
+        return response()->json([
+            $filters
+        ], Response::HTTP_OK);
     }
 }
