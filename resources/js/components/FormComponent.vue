@@ -23,9 +23,6 @@ export default {
             currentDpoFilter: null,
             loader: false,
             dpoFilters: null,
-            lastColumnName: null,
-            lastArray: null,
-            optionList: null,
             choice: null,
             formArray: []
         }
@@ -39,7 +36,6 @@ export default {
                 .get('/api/get-filters')
                 .then((response) => {
                     this.dpoFilters = response.data[0];
-                    this.lastColumnName = response.data[0][0];
                     this.currentDpoFilter = 0;
                 })
                 .catch(error => console.error(error));
@@ -76,15 +72,19 @@ export default {
             const choice = {
                 choice: elem.choice
             }
-            let options = await this.getOptions(this.dpoFilters[this.currentDpoFilter], choice);
-            options = options.data[0];
 
-                this.formArray.push({
-                    columnName: this.dpoFilters[this.currentDpoFilter],
-                    options: options
-                })
+            let options;
+            do {
+                options = await this.getOptions(this.dpoFilters[this.currentDpoFilter], choice);
+                options = options.data[0];
+                this.currentDpoFilter++;
+            } while (!Object.keys(options).some(x => (x !== null && x !== '')));
 
-            this.currentDpoFilter++;
+            this.formArray.push({
+                columnName: this.dpoFilters[this.currentDpoFilter-1],
+                options: options
+            })
+
         }
     },
 

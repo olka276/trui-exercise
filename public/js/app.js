@@ -1888,9 +1888,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       currentDpoFilter: null,
       loader: false,
       dpoFilters: null,
-      lastColumnName: null,
-      lastArray: null,
-      optionList: null,
       choice: null,
       formArray: []
     };
@@ -1911,7 +1908,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _context.next = 2;
                 return axios.get('/api/get-filters').then(function (response) {
                   _this.dpoFilters = response.data[0];
-                  _this.lastColumnName = response.data[0][0];
                   _this.currentDpoFilter = 0;
                 })["catch"](function (error) {
                   return console.error(error);
@@ -1973,21 +1969,31 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 choice = {
                   choice: elem.choice
                 };
+
+              case 5:
                 _context2.next = 7;
                 return _this2.getOptions(_this2.dpoFilters[_this2.currentDpoFilter], choice);
 
               case 7:
                 options = _context2.sent;
                 options = options.data[0];
+                _this2.currentDpoFilter++;
 
+              case 10:
+                if (!Object.keys(options).some(function (x) {
+                  return x !== null && x !== '';
+                })) {
+                  _context2.next = 5;
+                  break;
+                }
+
+              case 11:
                 _this2.formArray.push({
-                  columnName: _this2.dpoFilters[_this2.currentDpoFilter],
+                  columnName: _this2.dpoFilters[_this2.currentDpoFilter - 1],
                   options: options
                 });
 
-                _this2.currentDpoFilter++;
-
-              case 11:
+              case 12:
               case "end":
                 return _context2.stop();
             }
