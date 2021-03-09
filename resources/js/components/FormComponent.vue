@@ -63,18 +63,21 @@ export default {
         },
 
         async loadNext(elem) {
-            this.currentDpoFilter = this.dpoFilters.indexOf(elem.columnName)+1;
-            this.formArray.splice(this.dpoFilters.indexOf(elem.columnName)+1, this.formArray.length-this.dpoFilters.indexOf(elem.columnName));
-
-            if(this.currentDpoFilter === this.dpoFilters.length) {
-                return;
-            }
             const choice = {
                 choice: elem.choice
             }
-
+            const indexOfClickedFilter = this.dpoFilters.indexOf(elem.columnName)
+            const amountOfElementsToSplice = this.formArray.length-indexOfClickedFilter;
             let options;
+
+            this.currentDpoFilter = indexOfClickedFilter+1;
+            this.formArray.splice(indexOfClickedFilter+1, amountOfElementsToSplice);
+
+
             do {
+                if(this.currentDpoFilter === this.dpoFilters.length) {
+                    return;
+                }
                 options = await this.getOptions(this.dpoFilters[this.currentDpoFilter], choice);
                 options = options.data[0];
                 this.currentDpoFilter++;
@@ -84,9 +87,7 @@ export default {
                 columnName: this.dpoFilters[this.currentDpoFilter-1],
                 options: options
             })
-
         }
     },
-
 }
 </script>

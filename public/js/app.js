@@ -1949,37 +1949,38 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var choice, options;
+        var choice, indexOfClickedFilter, amountOfElementsToSplice, options;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this2.currentDpoFilter = _this2.dpoFilters.indexOf(elem.columnName) + 1;
+                choice = {
+                  choice: elem.choice
+                };
+                indexOfClickedFilter = _this2.dpoFilters.indexOf(elem.columnName);
+                amountOfElementsToSplice = _this2.formArray.length - indexOfClickedFilter;
+                _this2.currentDpoFilter = indexOfClickedFilter + 1;
 
-                _this2.formArray.splice(_this2.dpoFilters.indexOf(elem.columnName) + 1, _this2.formArray.length - _this2.dpoFilters.indexOf(elem.columnName));
+                _this2.formArray.splice(indexOfClickedFilter + 1, amountOfElementsToSplice);
 
+              case 5:
                 if (!(_this2.currentDpoFilter === _this2.dpoFilters.length)) {
-                  _context2.next = 4;
+                  _context2.next = 7;
                   break;
                 }
 
                 return _context2.abrupt("return");
 
-              case 4:
-                choice = {
-                  choice: elem.choice
-                };
-
-              case 5:
-                _context2.next = 7;
+              case 7:
+                _context2.next = 9;
                 return _this2.getOptions(_this2.dpoFilters[_this2.currentDpoFilter], choice);
 
-              case 7:
+              case 9:
                 options = _context2.sent;
                 options = options.data[0];
                 _this2.currentDpoFilter++;
 
-              case 10:
+              case 12:
                 if (!Object.keys(options).some(function (x) {
                   return x !== null && x !== '';
                 })) {
@@ -1987,13 +1988,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   break;
                 }
 
-              case 11:
+              case 13:
                 _this2.formArray.push({
                   columnName: _this2.dpoFilters[_this2.currentDpoFilter - 1],
                   options: options
                 });
 
-              case 12:
+              case 14:
               case "end":
                 return _context2.stop();
             }
